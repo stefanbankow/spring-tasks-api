@@ -50,7 +50,7 @@ public class AuthController {
         return ResponseEntity.ok(responseBody);
     }
 
-    @PostMapping("signup")
+    @PostMapping("/signup")
     public ResponseEntity<Map> signup(@RequestBody SignUpRequest body) {
         Map<String, String> map = new HashMap<>();
         return ResponseEntity.ok(map);

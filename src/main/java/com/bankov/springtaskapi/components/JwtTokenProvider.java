@@ -29,12 +29,11 @@ public class JwtTokenProvider {
     }
 
     public String createToken(String username, List<String> roles) {
-        String token = JWT.create()
+        return JWT.create()
                 .withIssuer("task-manager-api")
                 .withIssuedAt(currentDate)
                 .withExpiresAt(expiryDate).withClaim("username", username)
                 .withClaim("roles", roles).sign(algorithm);
-        return token;
     }
 
     public Authentication getAuthentication(String token) {
@@ -46,9 +45,9 @@ public class JwtTokenProvider {
         return JWT.decode(token).getClaim("username").asString();
     }
     public String resolveToken(HttpServletRequest req) {
-        String token = req.getHeader("Authorization ");
+        String token = req.getHeader("Authorization");
         if(token != null && token.startsWith("Bearer ")) {
-            return token.substring(7, token.length());
+            return token.substring(7);
         }
         return null;
     }
@@ -57,9 +56,6 @@ public class JwtTokenProvider {
         Date expiresAt = JWT.decode(token).getExpiresAt();
         Date currentDate = new Date();
 
-        if(expiresAt.before(currentDate)) {
-            return false;
-        }
-        return true;
+        return !expiresAt.before(currentDate);
     }
 }

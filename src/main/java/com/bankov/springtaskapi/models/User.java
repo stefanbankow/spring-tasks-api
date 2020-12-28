@@ -1,5 +1,7 @@
 package com.bankov.springtaskapi.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -36,16 +38,19 @@ public class User implements UserDetails {
     @Column(unique = true)
     private String email;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles;
 
     @OneToMany(mappedBy = "by", cascade = CascadeType.ALL)
+    @JsonBackReference
     private List<Task> tasks;
 
     @Transient
     private boolean showTasks;
+
 
     public List<Task> getTasks() {
         if (this.showTasks) {
