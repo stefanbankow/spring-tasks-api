@@ -5,10 +5,10 @@ import lombok.Data;
 import javax.validation.constraints.NotEmpty;
 
 @Data
-public class CreateTaskRequest {
+public class TaskRequest {
     @NotEmpty
     private String title;
 
     private String description;
-    private boolean completed;
+    private Boolean completed;
 }
